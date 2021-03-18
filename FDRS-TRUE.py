@@ -35,20 +35,28 @@ while True:
                 print("moviendo hacia adelante")
                 cad = 'u'
                 serialArduino.write(cad.encode('ascii'))
+                cad2 = serialArduino.readline().decode('ascii')
+                print(cad2)
             else:
                 if(y-255 < -100):
                     print("moviendo hacia atras")
                     cad = 'd'
                     serialArduino.write(cad.encode('ascii'))
+                    cad2 = serialArduino.readline().decode('ascii')
+                    print(cad2)
             if(x-255 < -125):
                 print("moviendo hacia la derecha")
                 cad = 'r'
                 serialArduino.write(cad.encode('ascii'))
+                cad2 = serialArduino.readline().decode('ascii')
+                print(cad2)
             else:
                 if(x-255 > 125):
                     print("moviendo hacia la izquierda")
                     cad = 'l'
                     serialArduino.write(cad.encode('ascii'))
+                    cad2 = serialArduino.readline().decode('ascii')
+                    print(cad2)
             
         cv2.circle(frame,(int(frame.shape[1]/2),int(frame.shape[0]/2)),20, (0,0,255),3)
         cv2.imshow(winName,frame)
