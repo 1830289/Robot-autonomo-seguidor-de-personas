@@ -1,11 +1,13 @@
 import cv2
 import sys
-import numpy as np
+import serial
 
 faceCascade = cv2.CascadeClassifier('faceCascade.xml')
 
 url = 'http://192.168.0.5:8080/shot.jpg'
 cap = cv2.VideoCapture(url)
+
+serialArduino = serial.Serial("COM4",9600)
 
 if cap.isOpened():
     print("Ip Cam initializatized")
@@ -29,9 +31,20 @@ while True:
             cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
             print(x-255,y-255,x+w-255,y+h-255)
 
-        #if((x>200 | x<-200) & (y>200 | y<-200) ):
+            if(y-255 > -20):
+                print("moviendo hacia adelante")
+            else:
+                if(y-255 < -100):
+                    print("moviendo hacia atras")
+            if(x-255 < -125):
+                print("moviendo hacia la derecha")
+            else:
+                if(x-255 > 125):
+                    print("moviendo hacia la izquierda")
+                
+            cad = str(x-255) + "," + str(y-255)
+            serialArduino.write(cad.encode('ascii'))
             
-        
         cv2.circle(frame,(int(frame.shape[1]/2),int(frame.shape[0]/2)),20, (0,0,255),3)
         cv2.imshow(winName,frame)
     else:
